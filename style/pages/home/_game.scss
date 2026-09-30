@@ -1,0 +1,30 @@
+@use "../../abstracts/variables" as *;
+
+.game {
+  padding: 40px 0;
+
+  .card {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 200px));
+    justify-content: center;
+    gap: 8px;
+
+    @media screen and (min-width: 768px) {
+      grid-template-columns: repeat(8, minmax(0, 200px));
+      gap: 16px;
+    }
+  }
+
+  &__item {
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // TODO
+    font-size: 32px;
+    border: 1px solid tomato;
+    border-radius: 4px;
+  }
+}
+}

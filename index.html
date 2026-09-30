@@ -4,54 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Game</title>
+  <link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-  <header>
-    <div>
-      <ul>
-        <li>
-          <button type="button">New game</button>
+  <header class="header">
+    <div class="container header__container">
+      <ul class="control__list">
+        <li class="control__item">
+          <button type="button" class="control__button">New game</button>
         </li>
-        <li>
-          <button type="button">Leader board</button>
+        <li class="control__item">
+          <button type="button" class="control__button">Leader board</button>
         </li>
       </ul>
-      <ul>
-        <li>
-          <span>Moves:</span>
-          <span>0</span>
+      <ul class="stat__list">
+        <li class="stat__item">
+          <span class="stat__title">Moves:</span>
+          <span class="stat__number">0</span>
         </li>
-        <li>
-          <span>Pairs found:</span>
-          <div>
-            <span>0</span>
-            <span>/</span>
-            <span>8</span>
+        <li class="stat__item">
+          <span class="stat__title">Pairs found:</span>
+          <div class="stat__content">
+            <span class="stat__number">0</span>
+            <span class="stat__delimiter">/</span>
+            <span class="stat__total">8</span>
           </div>
         </li>
       </ul>
     </div>
   </header>
   <main>
-    <section>
-      <div>
-        <ul>
-          <li>🐷</li>
-          <li>🦊</li>
-          <li>🐳</li>
-          <li>🐷</li>
-          <li>🦦</li>
-          <li>🐹</li>
-          <li>🦁</li>
-          <li>🦅</li>
-          <li>🐮</li>
-          <li>🦊</li>
-          <li>🐹</li>
-          <li>🦁</li>
-          <li>🐮</li>
-          <li>🦅</li>
-          <li>🦦</li>
-          <li>🐳</li>
+    <section class="game">
+      <div class="container game__container">
+        <ul class="card__list">
+          <li class="card__item">🐷</li>
+          <li class="card__item">🦊</li>
+          <li class="card__item">🐳</li>
+          <li class="card__item">🐷</li>
+          <li class="card__item">🦦</li>
+          <li class="card__item">🐹</li>
+          <li class="card__item">🦁</li>
+          <li class="card__item">🦅</li>
+          <li class="card__item">🐮</li>
+          <li class="card__item">🦊</li>
+          <li class="card__item">🐹</li>
+          <li class="card__item">🦁</li>
+          <li class="card__item">🐮</li>
+          <li class="card__item">🦅</li>
+          <li class="card__item">🦦</li>
+          <li class="card__item">🐳</li>
         </ul>
       </div>
     </section>

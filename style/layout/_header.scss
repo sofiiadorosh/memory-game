@@ -1,0 +1,33 @@
+@use "../abstracts/variables" as *;
+
+.header {
+  padding: 40px 0;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .control {
+    &__list {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+  }
+
+  .stat {
+    &__list {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+}
