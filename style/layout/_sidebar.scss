@@ -1,0 +1,353 @@
+@use "sass:list";
+@use "../abstracts/variables" as *;
+
+$category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
+
+.sidebar {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear $sidebar-duration;
+
+  &_opened {
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: $sidebar-backdrop;
+    opacity: 0;
+    transition: opacity $sidebar-duration $timing-function;
+  }
+
+  &_opened &__backdrop {
+    opacity: 1;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 32px);
+    max-width: 458px;
+    height: calc(100vh - 32px);
+    overflow: hidden;
+    color: $retro-ink;
+    background-color: $retro-cream;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 12px;
+    transform: translateX(calc(-100% - 32px));
+    transition: transform $sidebar-duration $timing-function;
+  }
+
+  &_opened &__panel {
+    transform: none;
+  }
+
+  &__header {
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: $retro-purple;
+    border-bottom: $retro-outline solid $retro-ink;
+  }
+
+  &__title {
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__dot {
+    width: 16px;
+    height: 16px;
+    display: block;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 100px;
+
+    &_pink {
+      background: $retro-pink;
+    }
+
+    &_yellow {
+      background: $retro-yellow;
+    }
+  }
+
+  &__close {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    color: $retro-ink;
+    background: $retro-green;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 12px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__tabs {
+    padding: 12px 16px 0;
+    display: flex;
+    gap: 8px;
+    background: $retro-cream;
+    border-bottom: $retro-outline solid $retro-ink;
+  }
+
+  &__tab {
+    position: relative;
+    top: $retro-outline;
+    padding: 8px 16px;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: $retro-ink;
+    background: $retro-purple;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 8px 8px 0 0;
+
+    @media (hover: hover) {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &_active {
+      background: $retro-white;
+      border-bottom-color: $retro-white;
+    }
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding: 16px;
+    background-image:
+      linear-gradient($retro-grid 1px, transparent 1px),
+      linear-gradient(90deg, $retro-grid 1px, transparent 1px);
+    background-size: 20px 20px;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: 8px 16px;
+    font-size: 14px;
+    background: $retro-pink;
+    border-top: $retro-outline solid $retro-ink;
+  }
+}
+
+.category {
+  &__list {
+    display: grid;
+    gap: 8px;
+  }
+
+  @for $i from 1 through list.length($category-colors) {
+    &__item:nth-child(#{list.length($category-colors)}n + #{$i}) &__icon {
+      background-color: list.nth($category-colors, $i);
+    }
+  }
+
+  &__button {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    background: $retro-white;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 8px;
+    transition: background-color 150ms $timing-function;
+
+    @media (hover: hover) {
+      &:hover {
+        background: $retro-cream;
+        cursor: pointer;
+      }
+    }
+
+    &_active {
+      cursor: default;
+
+      @media (hover: hover) {
+        &:hover {
+          background: $retro-white;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 8px;
+  }
+
+  &__name {
+    flex-grow: 1;
+    font-size: 15px;
+    text-transform: uppercase;
+  }
+
+  &__radio {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    background: $retro-white;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 100px;
+    transition: background-color 150ms $timing-function;
+  }
+
+  &__button_active &__radio {
+    background: $retro-green;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 12px;
+      border-right: $retro-outline solid $retro-ink;
+      border-bottom: $retro-outline solid $retro-ink;
+      transform: translate(-50%, -60%) rotate(45deg);
+    }
+  }
+}
+
+.preview {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  &__card {
+    width: 120px;
+    aspect-ratio: 1;
+    perspective: 600px;
+    font-size: 40px;
+  }
+
+  &__content {
+    animation: preview-spin $preview-duration linear infinite;
+  }
+
+  &__shadow {
+    width: 120px;
+    height: 16px;
+    background-image: radial-gradient(closest-side, $card-shadow, transparent);
+    animation: preview-shadow $preview-duration linear infinite;
+  }
+}
+
+@keyframes preview-spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes preview-shadow {
+  0%,
+  50%,
+  100% {
+    transform: scaleX(1);
+  }
+
+  25%,
+  75% {
+    transform: scaleX(0.4);
+  }
+}
+
+.design {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  &__button {
+    width: 100%;
+    aspect-ratio: 1;
+    padding: 16px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: inherit;
+    background: $retro-white;
+    border: $retro-outline solid $retro-ink;
+    border-radius: 8px;
+    transition: background-color 150ms $timing-function;
+
+    @media (hover: hover) {
+      &:hover {
+        background: $retro-cream;
+        cursor: pointer;
+      }
+    }
+
+    &_active {
+      background-color: $retro-yellow;
+      cursor: default;
+
+      @media (hover: hover) {
+        &:hover {
+          background-color: $retro-yellow;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  &__swatch {
+    position: relative;
+    width: 64px;
+    aspect-ratio: 1;
+  }
+}

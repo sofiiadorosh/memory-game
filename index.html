@@ -11,6 +11,9 @@
     <div class="container header__container">
       <ul class="control__list">
         <li class="control__item">
+          <button type="button" class="control__button" data-sidebar-open>Settings</button>
+        </li>
+        <li class="control__item">
           <button type="button" class="control__button">New game</button>
         </li>
         <li class="control__item">
@@ -34,6 +37,43 @@
     </div>
   </header>
   <main>
+    <aside class="sidebar" id="sidebar" aria-hidden="true">
+      <div class="sidebar__backdrop" data-sidebar-close></div>
+      <div class="sidebar__panel" role="dialog" aria-modal="true" aria-labelledby="sidebar-title">
+        <div class="sidebar__header">
+          <h2 class="sidebar__title" id="sidebar-title">Settings</h2>
+          <div class="sidebar__controls">
+            <span class="sidebar__dot sidebar__dot_pink" aria-hidden="true"></span>
+            <span class="sidebar__dot sidebar__dot_yellow" aria-hidden="true"></span>
+            <button type="button" class="sidebar__dot sidebar__close" aria-label="Close settings" data-sidebar-close></button>
+          </div>
+        </div>
+        <div class="sidebar__tabs" role="tablist">
+          <button type="button" class="sidebar__tab sidebar__tab_active" id="tab-categories" role="tab" aria-selected="true" aria-controls="panel-categories" data-tab="categories">Categories</button>
+          <button type="button" class="sidebar__tab" id="tab-designs" role="tab" aria-selected="false" aria-controls="panel-designs" data-tab="designs" tabindex="-1">Cards</button>
+        </div>
+        <div class="sidebar__body">
+          <div class="sidebar__tab-panel" id="panel-categories" role="tabpanel" aria-labelledby="tab-categories">
+            <ul class="category__list"></ul>
+          </div>
+          <div class="sidebar__tab-panel" id="panel-designs" role="tabpanel" aria-labelledby="tab-designs" hidden>
+            <div class="preview card__list_notebook">
+              <div class="preview__card">
+                <div class="card__content preview__content">
+                  <div class="card__back"></div>
+                  <div class="card__front preview__front">🐶</div>
+                </div>
+              </div>
+              <div class="preview__shadow"></div>
+            </div>
+            <ul class="design__list"></ul>
+          </div>
+        </div>
+        <div class="sidebar__footer">
+          <span class="sidebar__status"></span>
+        </div>
+      </div>
+    </aside>
     <section class="game">
       <div class="container game__container">
         <ul class="card__list">
@@ -138,5 +178,6 @@
     </section>
   </main>
   <script src="./js/game.js" type="module"></script>
+  <script src="./js/sidebar.js" type="module"></script>
 </body>
 </html>
