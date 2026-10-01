@@ -6,12 +6,11 @@
   .card {
     &__list {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 200px));
+      grid-template-columns: repeat(4, minmax(0, 120px));
       justify-content: center;
       gap: 8px;
 
       @media screen and (min-width: 768px) {
-        grid-template-columns: repeat(8, minmax(0, 200px));
         gap: 16px;
       }
     }
@@ -21,11 +20,17 @@
       perspective: 1000px;
       // TODO
       font-size: 32px;
+      cursor: pointer;
 
-      @media (hover: hover) {
-        &:hover .card__content {
+      &_flipped {
+        .card__content {
           transform: rotateY(180deg);
         }
+      }
+
+      &_blocked {
+        pointer-events: none;
+        cursor: default;
       }
     }
 
