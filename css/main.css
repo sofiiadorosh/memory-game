@@ -127,11 +127,79 @@ a {
       -ms-flex-pack: center;
           justify-content: center;
   gap: 8px;
+  --card-border: #7a9cc6;
 }
 @media screen and (min-width: 768px) {
   .game .card__list {
     gap: 16px;
   }
+}
+.game .card__list_notebook .card__back {
+  background-color: #fdfdf8;
+  background-image: linear-gradient(90deg, transparent calc(100% - 20px), #e8706b 0 calc(100% - 18px), transparent 0), linear-gradient(#b8d0ea 1px, transparent 1px), linear-gradient(90deg, #b8d0ea 1px, transparent 1px);
+  background-size: 100% 100%, 12px 12px, 12px 12px;
+}
+.game .card__list_notebook {
+  --card-border: #7a9cc6;
+}
+.game .card__list_notebook .card__front {
+  background-color: #eef4fb;
+}
+.game .card__list_waves .card__back {
+  background-color: #fff3e8;
+  background-image: radial-gradient(circle at 25% 100%, transparent 6px, #f5b98c 7px 9px, transparent 10px), radial-gradient(circle at 75% 0, transparent 6px, #f5b98c 7px 9px, transparent 10px);
+  background-size: 64px 40px;
+}
+.game .card__list_waves {
+  --card-border: #f0904f;
+}
+.game .card__list_waves .card__front {
+  background-color: #fde6d4;
+}
+.game .card__list_checker .card__back {
+  background-color: #d8eaa0;
+  background-image: conic-gradient(#b5d35a 25%, transparent 0 50%, #b5d35a 0 75%, transparent 0);
+  background-size: 25% 25%;
+}
+.game .card__list_checker {
+  --card-border: #8fae35;
+}
+.game .card__list_checker .card__front {
+  background-color: #f0f7d9;
+}
+.game .card__list_peas .card__back {
+  background-color: #e3f2d0;
+  background-image: radial-gradient(circle closest-side, #8cc47a 0 32%, transparent 38%), radial-gradient(circle closest-side, #8cc47a 0 32%, transparent 38%);
+  background-size: 18px 18px;
+  background-position: 0 0, 9px 9px;
+}
+.game .card__list_peas {
+  --card-border: #6aa85a;
+}
+.game .card__list_peas .card__front {
+  background-color: #f1f8e9;
+}
+.game .card__list_gingham .card__back {
+  background-color: #f8f5fd;
+  background-image: linear-gradient(90deg, rgba(167, 139, 226, 0.4) 50%, transparent 0), linear-gradient(rgba(167, 139, 226, 0.4) 50%, transparent 0);
+  background-size: 16px 16px;
+}
+.game .card__list_gingham {
+  --card-border: #9b84d6;
+}
+.game .card__list_gingham .card__front {
+  background-color: #efe9fb;
+}
+.game .card__list_bars .card__back {
+  background-color: #f2f5d6;
+  background-image: repeating-linear-gradient(90deg, #8fb2f0 0 8px, #cfe0ff 8px 16px, transparent 16px 24px);
+  background-size: auto;
+}
+.game .card__list_bars {
+  --card-border: #5f86d0;
+}
+.game .card__list_bars .card__front {
+  background-color: #e8effc;
 }
 .game .card__item {
   aspect-ratio: 1;
@@ -172,12 +240,21 @@ a {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  border: 1px solid tomato;
-  border-radius: 4px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  -webkit-box-shadow: 2px 2px 0 var(--card-border), 4px 6px 8px rgba(0, 0, 0, 0.16);
+          box-shadow: 2px 2px 0 var(--card-border), 4px 6px 8px rgba(0, 0, 0, 0.16);
+  overflow: hidden;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
 }
 .game .card__front {
+  background-color: #eef4fb;
   -webkit-transform: rotateY(180deg);
           transform: rotateY(180deg);
+}
+.game .card__back {
+  background-color: #fdfdf8;
+  background-image: linear-gradient(90deg, transparent calc(100% - 20px), #e8706b 0 calc(100% - 18px), transparent 0), linear-gradient(#b8d0ea 1px, transparent 1px), linear-gradient(90deg, #b8d0ea 1px, transparent 1px);
+  background-size: 100% 100%, 12px 12px, 12px 12px;
 }/*# sourceMappingURL=main.css.map */
