@@ -71,10 +71,6 @@ $card-default-design: notebook;
   background-position: map.get($pattern, position);
 }
 
-.game {
-  padding: 40px 0;
-}
-
 .card {
   &__list {
     display: grid;

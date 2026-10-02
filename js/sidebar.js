@@ -1,3 +1,5 @@
+import { getSettings, saveSettings } from "./storage.js";
+
 const CATEGORIES_URL = "./assets/categories.json";
 const DESIGNS = ["notebook", "waves", "checker", "peas", "gingham", "bars"];
 const DESIGN_CLASS_PREFIX = "card__list_";
@@ -18,6 +20,8 @@ const statusText = {
   categories: "",
   designs: `${DESIGNS.length} card designs`,
 };
+
+const settings = getSettings();
 
 let categories = {};
 let activeTab = tabs[0];
@@ -57,7 +61,10 @@ async function renderCategories() {
 
   statusText.categories = `${entries.length} categories`;
   updateStatus();
-  selectCategory(categoryList.querySelector(".category__button"));
+  selectCategory(
+    categoryList.querySelector(`[data-category="${settings.category}"]`) ??
+      categoryList.querySelector(".category__button"),
+  );
 }
 
 function renderDesigns() {
@@ -73,7 +80,10 @@ function renderDesigns() {
       </li>`,
   ).join("");
 
-  selectDesign(designList.querySelector(".design__button"));
+  selectDesign(
+    designList.querySelector(`[data-design="${settings.design}"]`) ??
+      designList.querySelector(".design__button"),
+  );
 }
 
 function openSidebar() {
@@ -159,15 +169,18 @@ function onDesignListClick(e) {
 
 function selectCategory(button) {
   selectedCategory = toggleSelection(selectedCategory, button, "category__button_active");
-  const emojis = categories[button.dataset.category];
+  const name = button.dataset.category;
+  const emojis = categories[name];
 
   previewFront.textContent = emojis[0];
+  saveSettings({ category: name });
   document.dispatchEvent(new CustomEvent("categorychange", { detail: { emojis } }));
 }
 
 function selectDesign(button) {
   selectedDesign = toggleSelection(selectedDesign, button, "design__button_active");
   applyDesign(button.dataset.design);
+  saveSettings({ design: button.dataset.design });
 }
 
 function toggleSelection(previous, next, activeClass) {

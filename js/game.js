@@ -1,3 +1,5 @@
+import { addResult } from "./storage.js";
+
 const FLIP_BACK_DELAY = 1500;
 
 const cardList = document.querySelector(".game .card__list");
@@ -7,6 +9,7 @@ const pairsTotal = document.querySelector(".stat__total");
 const newGameButton = document.querySelector("[data-new-game]");
 
 let emojis = [];
+let isResultSaved = false;
 let firstCard = null;
 let isBoardLocked = false;
 let flipBackTimeout = null;
@@ -26,6 +29,7 @@ function startGame() {
   clearTimeout(flipBackTimeout);
   firstCard = null;
   isBoardLocked = false;
+  isResultSaved = false;
   movesCount = 0;
   pairsCount = 0;
 
@@ -84,6 +88,10 @@ function onCardListClick(e) {
     pairs.textContent = pairsCount;
     firstCard = null;
 
+    if (pairsCount === emojis.length) {
+      saveWin();
+    }
+
     isBoardLocked = true;
     flipBackTimeout = setTimeout(() => {
       isBoardLocked = false;
@@ -106,4 +114,13 @@ function getFlipDuration(card) {
   const content = card.querySelector(".card__content");
 
   return parseFloat(getComputedStyle(content).transitionDuration) * 1000;
+}
+
+function saveWin() {
+  if (isResultSaved) {
+    return;
+  }
+
+  isResultSaved = true;
+  addResult({ moves: movesCount, date: Date.now() });
 }
