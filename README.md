@@ -2,6 +2,8 @@
 
 A browser memory game: flip cards two at a time and find all the matching pairs in as few moves as possible.
 
+**Live demo:** <https://sofiiadorosh.github.io/memory-game/>
+
 The app is written in plain HTML, SCSS and JavaScript — no frameworks or UI libraries. All markup is created with JavaScript: `index.html` contains only a `<script>` tag inside `<body>`.
 
 ## How to play
