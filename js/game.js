@@ -1,4 +1,5 @@
 import { addResult } from "./storage.js";
+import { showVictory } from "./victory.js";
 
 const FLIP_BACK_DELAY = 1500;
 
@@ -88,13 +89,19 @@ function onCardListClick(e) {
     pairs.textContent = pairsCount;
     firstCard = null;
 
-    if (pairsCount === emojis.length) {
+    const isWin = pairsCount === emojis.length;
+
+    if (isWin) {
       saveWin();
     }
 
     isBoardLocked = true;
     flipBackTimeout = setTimeout(() => {
       isBoardLocked = false;
+
+      if (isWin) {
+        showVictory(movesCount, startGame);
+      }
     }, getFlipDuration(secondCard));
     return;
   }

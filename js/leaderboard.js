@@ -1,40 +1,19 @@
+import { createModal } from "./modal.js";
 import { getResults } from "./storage.js";
 
-const modal = document.querySelector("#leaderboard");
-const tableBody = modal.querySelector(".leaderboard__body");
-const table = modal.querySelector(".leaderboard__table");
-const emptyMessage = modal.querySelector(".leaderboard__empty");
-const closeButton = modal.querySelector(".modal__button");
+const element = document.querySelector("#leaderboard");
+const tableBody = element.querySelector(".leaderboard__body");
+const table = element.querySelector(".leaderboard__table");
+const emptyMessage = element.querySelector(".leaderboard__empty");
 const openButton = document.querySelector("[data-leaderboard-open]");
 
+const modal = createModal(element);
+
 openButton.addEventListener("click", openLeaderboard);
-modal.addEventListener("click", onModalClick);
 
 function openLeaderboard() {
   renderResults();
-  modal.classList.add("modal_opened");
-  modal.setAttribute("aria-hidden", "false");
-  document.addEventListener("keydown", onEscapePress);
-  closeButton.focus();
-}
-
-function closeLeaderboard() {
-  modal.classList.remove("modal_opened");
-  modal.setAttribute("aria-hidden", "true");
-  document.removeEventListener("keydown", onEscapePress);
-  openButton.focus();
-}
-
-function onModalClick(e) {
-  if (e.target.closest("[data-modal-close]")) {
-    closeLeaderboard();
-  }
-}
-
-function onEscapePress(e) {
-  if (e.key === "Escape") {
-    closeLeaderboard();
-  }
+  modal.open();
 }
 
 function renderResults() {

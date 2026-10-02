@@ -2,7 +2,7 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-$rank-colors: $ui-yellow, $ui-blue, $ui-orange;
+$rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
 
 .modal {
   position: fixed;
@@ -67,7 +67,7 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange;
 
   &__title {
     margin-bottom: 4px;
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
   }
 
@@ -84,7 +84,42 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange;
     font-weight: 600;
     color: $ui-ink;
     @include ui-card;
-    background: $ui-yellow;
+
+    &_primary {
+      background: $ui-yellow;
+    }
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+.victory {
+  &__result {
+    margin-bottom: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: $ui-surface;
+    border-radius: $ui-radius + 6px;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $ui-muted;
+  }
+
+  &__moves {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
   }
 }
 
@@ -140,7 +175,7 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange;
   }
 
   @for $i from 1 through list.length($rank-colors) {
-    &__body &__row:nth-child(#{$i}) &__rank {
+    &__body &__row:nth-child(#{list.length($rank-colors)}n + #{$i}) &__rank {
       background: list.nth($rank-colors, $i);
     }
   }

@@ -85,7 +85,7 @@
       <div class="modal__window" role="dialog" aria-modal="true" aria-labelledby="leaderboard-title">
         <div class="modal__header">
           <div>
-            <h2 class="modal__title" id="leaderboard-title">Leader board</h2>
+            <h2 class="modal__title" id="leaderboard-title">Leader board 🏆</h2>
             <p class="modal__subtitle">Top 10 games with the fewest moves</p>
           </div>
         </div>
@@ -100,7 +100,26 @@
           <div class="leaderboard__body" role="rowgroup"></div>
         </div>
         <p class="leaderboard__empty" hidden>No results yet</p>
-        <button type="button" class="modal__button" data-modal-close>Close</button>
+        <button type="button" class="modal__button modal__button_primary" data-modal-close>Close</button>
+      </div>
+    </div>
+    <div class="modal" id="victory" aria-hidden="true">
+      <div class="modal__backdrop" data-modal-close></div>
+      <div class="modal__window" role="dialog" aria-modal="true" aria-labelledby="victory-title">
+        <div class="modal__header">
+          <div>
+            <h2 class="modal__title" id="victory-title">You won! 🎉</h2>
+            <p class="modal__subtitle">All pairs are found</p>
+          </div>
+        </div>
+        <div class="victory__result">
+          <span class="victory__label">Moves</span>
+          <span class="victory__moves">0</span>
+        </div>
+        <div class="modal__actions">
+          <button type="button" class="modal__button modal__button_primary" data-victory-new-game data-modal-focus>New game</button>
+          <button type="button" class="modal__button" data-modal-close>Close</button>
+        </div>
       </div>
     </div>
   </main>
