@@ -1,0 +1,240 @@
+@use "sass:list";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+$rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear $sidebar-duration;
+
+  &_opened {
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: $sidebar-backdrop;
+    opacity: 0;
+    transition: opacity $sidebar-duration $timing-function;
+  }
+
+  &_opened &__backdrop {
+    opacity: 1;
+  }
+
+  &__window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 32px);
+    max-width: 560px;
+    max-height: calc(100vh - 32px);
+    padding: 24px;
+    font-family: $ui-font;
+    color: $ui-ink;
+    background: $ui-white;
+    border: $ui-outline solid $ui-ink;
+    border-radius: 16px;
+    box-shadow: $sidebar-panel-shadow;
+    opacity: 0;
+    overflow-y: auto;
+    transform: translate(-50%, -50%) scale(0.96);
+    transition:
+      opacity $sidebar-duration $timing-function,
+      transform $sidebar-duration $timing-function;
+  }
+
+  &_opened &__window {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  &_side &__window {
+    top: 16px;
+    right: 16px;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 458px;
+    height: calc(100vh - 32px);
+    max-height: none;
+    padding: 0;
+    overflow: hidden;
+    opacity: 1;
+    transform: translateX(calc(100% + 32px));
+    transition: transform $sidebar-duration $timing-function;
+  }
+
+  &_side#{&}_opened &__window {
+    transform: none;
+  }
+
+  &_side &__header {
+    margin-bottom: 0;
+    padding: 24px 24px 12px;
+  }
+
+  &__body {
+    padding: 12px 24px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: 24px;
+    border-top: 1px solid $ui-divider;
+  }
+
+  &__header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  &__title {
+    margin-bottom: 4px;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    color: $ui-muted;
+  }
+
+  &__button {
+    width: 100%;
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    color: $ui-ink;
+    @include ui-card;
+
+    &_primary {
+      background: $ui-yellow;
+    }
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+.victory {
+  &__result {
+    margin-bottom: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: $ui-surface;
+    border-radius: $ui-radius + 6px;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $ui-muted;
+  }
+
+  &__moves {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+}
+
+.leaderboard {
+  &__table,
+  &__empty {
+    flex-grow: 1;
+  }
+
+  &__table {
+    font-size: 14px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    border-bottom: 1px solid $ui-divider;
+
+    &_head {
+      border-bottom: $ui-outline solid $ui-ink;
+    }
+  }
+
+  &__heading {
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: $ui-muted;
+  }
+
+  &__cell {
+    padding: 12px 8px;
+
+    &_strong {
+      font-weight: 700;
+    }
+
+    &_muted {
+      color: $ui-muted;
+    }
+  }
+
+  &__rank {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    background: $ui-surface;
+    border: $ui-outline solid $ui-ink;
+    border-radius: 100px;
+  }
+
+  @for $i from 1 through list.length($rank-colors) {
+    &__body &__row:nth-child(#{list.length($rank-colors)}n + #{$i}) &__rank {
+      background: list.nth($rank-colors, $i);
+    }
+  }
+
+  &__empty {
+    padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    text-align: center;
+    color: $ui-muted;
+    background: $ui-surface;
+    border-radius: $ui-radius + 6px;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+}
