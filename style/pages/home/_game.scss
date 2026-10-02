@@ -74,6 +74,7 @@ $card-default-design: notebook;
 
 .card {
   &__list {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 120px));
     justify-content: center;
