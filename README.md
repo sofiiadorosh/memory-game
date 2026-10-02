@@ -55,6 +55,8 @@ Styles are written in SCSS (`style/`) and compiled to `css/main.css` with the **
 
 ```
 ├── index.html            # Empty <body> with a single <script>
+├── assets/
+│   └── favicon.svg
 ├── js/
 │   ├── app.js            # Entry point: creates every part and wires them together
 │   ├── dom.js            # createElement() helper over document.createElement
