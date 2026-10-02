@@ -25,7 +25,7 @@ The app is written in plain HTML, SCSS and JavaScript — no frameworks or UI li
 
 ## Getting started
 
-The app uses ES modules and loads categories with `fetch`, so it must be served over HTTP — opening `index.html` directly from the file system will not work.
+The app uses ES modules, so it must be served over HTTP — opening `index.html` directly from the file system will not work.
 
 Use any static server, for example the **Live Server** extension in VS Code, or:
 
@@ -43,8 +43,6 @@ Styles are written in SCSS (`style/`) and compiled to `css/main.css` with the **
 
 ```
 ├── index.html            # Empty <body> with a single <script>
-├── assets/
-│   └── categories.json   # Emoji sets for the card categories
 ├── js/
 │   ├── app.js            # Entry point: creates every part and wires them together
 │   ├── dom.js            # createElement() helper over document.createElement
@@ -54,6 +52,7 @@ Styles are written in SCSS (`style/`) and compiled to `css/main.css` with the **
 │   ├── modal.js          # Modal shell: backdrop, inert background, scroll lock, Escape
 │   ├── leaderboard.js    # Leader board modal
 │   ├── victory.js        # Victory modal
+│   ├── categories.js     # Emoji sets for the card categories
 │   ├── designs.js        # Card design names and applyDesign()
 │   └── storage.js        # localStorage: results and settings
 ├── style/
@@ -74,5 +73,5 @@ Styles are written in SCSS (`style/`) and compiled to `css/main.css` with the **
 
 ### Adding content
 
-- **A new category** — add an array of 8 emoji to `assets/categories.json`.
+- **A new category** — add an array of 8 emoji to `CATEGORIES` in `js/categories.js`.
 - **A new card design** — add an entry to `$card-designs` in `_game.scss` (with its colors in `_variables.scss`) and its name to `DESIGNS` in `js/designs.js`.

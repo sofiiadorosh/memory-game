@@ -7,7 +7,7 @@ export function createHeader() {
 
   const moves = createElement("span", { className: "stat__number", text: "0" });
   const pairs = createElement("span", { className: "stat__number", text: "0" });
-  const pairsTotal = createElement("span", { className: "stat__total", text: "0" });
+  const pairsTotal = createElement("span", { className: "stat__total", text: "8" });
 
   const element = createElement("header", {
     className: "header",

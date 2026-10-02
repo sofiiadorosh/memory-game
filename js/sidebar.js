@@ -1,8 +1,7 @@
+import { CATEGORIES } from "./categories.js";
 import { applyDesign, DESIGNS, getDesignClass } from "./designs.js";
 import { createElement } from "./dom.js";
 import { getSettings, saveSettings } from "./storage.js";
-
-const CATEGORIES_URL = "./assets/categories.json";
 
 const TABS = [
   { name: "categories", label: "Categories" },
@@ -65,7 +64,6 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
     ],
   });
 
-  let categories = {};
   let activeTab = tabs[0];
   let selectedCategory = null;
   let selectedDesign = null;
@@ -80,10 +78,8 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
   renderDesigns();
   renderCategories();
 
-  async function renderCategories() {
-    categories = await fetch(CATEGORIES_URL).then((res) => res.json());
-
-    const entries = Object.entries(categories);
+  function renderCategories() {
+    const entries = Object.entries(CATEGORIES);
 
     categoryList.replaceChildren(...entries.map(([name, emojis]) => createCategoryItem(name, emojis)));
     statusText.categories = `${entries.length} categories`;
@@ -192,7 +188,7 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
     selectedCategory = toggleSelection(selectedCategory, button, "category__button_active");
 
     const name = button.dataset.category;
-    const emojis = categories[name];
+    const emojis = CATEGORIES[name];
 
     previewFront.textContent = emojis[0];
     saveSettings({ category: name });
