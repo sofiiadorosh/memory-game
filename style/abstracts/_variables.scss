@@ -1,0 +1,65 @@
+$timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+$mobile-max-width: 1119px;
+$bottom-nav-height: 80px;
+
+$card-border-width: 1px;
+$card-depth: 2px;
+$card-shadow: rgba(0, 0, 0, 0.16);
+
+$notebook-paper: #fdfdf8;
+$notebook-line: #b8d0ea;
+$notebook-margin: #e8706b;
+$notebook-front: #eef4fb;
+$notebook-border: #7a9cc6;
+
+$waves-background: #fff3e8;
+$waves-accent: #f5b98c;
+$waves-front: #fde6d4;
+$waves-border: #f0904f;
+
+$checker-background: #d8eaa0;
+$checker-accent: #b5d35a;
+$checker-front: #f0f7d9;
+$checker-border: #8fae35;
+
+$peas-background: #e3f2d0;
+$peas-accent: #8cc47a;
+$peas-front: #f1f8e9;
+$peas-border: #6aa85a;
+
+$gingham-background: #f8f5fd;
+$gingham-accent: rgba(167, 139, 226, 0.4);
+$gingham-front: #efe9fb;
+$gingham-border: #9b84d6;
+
+$bars-background: #f2f5d6;
+$bars-accent: #8fb2f0;
+$bars-accent-light: #cfe0ff;
+$bars-front: #e8effc;
+$bars-border: #5f86d0;
+
+$ui-font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$logo-font: "Lilita One", $ui-font;
+$ui-ink: #22252d;
+$ui-white: #ffffff;
+$ui-surface: #f5f6fa;
+$ui-muted: #8b8f99;
+$ui-divider: #e6e8ee;
+$ui-yellow: #fad66b;
+$ui-blue: #73c4f0;
+$ui-orange: #f59a5b;
+$ui-pink: #f5a3bf;
+$ui-green: #7fcf7d;
+$ui-outline: 2px;
+$ui-shadow: 4px;
+$ui-radius: 10px;
+
+$page-background: #fdeef4;
+$page-grid: rgba(244, 143, 199, 0.18);
+$page-grid-size: 24px;
+
+$sidebar-backdrop: rgba(34, 37, 45, 0.35);
+$sidebar-panel-shadow: 0 24px 48px rgba(34, 37, 45, 0.18);
+$preview-duration: 4000ms;
+$sidebar-duration: 250ms;

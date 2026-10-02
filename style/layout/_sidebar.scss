@@ -1,0 +1,339 @@
+@use "sass:list";
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+$category-colors: $ui-orange, $ui-blue, $ui-pink, $ui-green;
+
+.sidebar {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  visibility: hidden;
+  pointer-events: none;
+  transition: visibility 0s linear $sidebar-duration;
+
+  &_opened {
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: $sidebar-backdrop;
+    opacity: 0;
+    transition: opacity $sidebar-duration $timing-function;
+  }
+
+  &_opened &__backdrop {
+    opacity: 1;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: calc(100% - 32px);
+    max-width: 480px;
+    height: calc(100vh - 32px);
+    height: calc(100dvh - 32px);
+    display: flex;
+    flex-direction: column;
+    font-family: $ui-font;
+    color: $ui-ink;
+    background: $ui-white;
+    border: $ui-outline solid $ui-ink;
+    border-radius: 16px;
+    box-shadow: $sidebar-panel-shadow;
+    overflow: hidden;
+    transform: translateX(calc(-100% - 32px));
+    transition: transform $sidebar-duration $timing-function;
+  }
+
+  &_opened &__panel {
+    transform: none;
+  }
+
+  &__header {
+    padding: 24px 24px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  &__subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: $ui-muted;
+  }
+
+  &__close {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    padding: 0;
+    color: $ui-ink;
+    @include ui-card;
+    background: $ui-yellow;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 1px;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+  }
+
+  &__tabs {
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    border: $ui-outline solid $ui-ink;
+    border-radius: $ui-radius + 2px;
+  }
+
+  &__tab {
+    padding: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: $ui-ink;
+    background: transparent;
+    border: $ui-outline solid transparent;
+    border-radius: $ui-radius - 2px;
+    transition: background-color 150ms $timing-function;
+
+    @media (hover: hover) {
+      &:hover {
+        background: $ui-surface;
+        cursor: pointer;
+      }
+    }
+
+    &_active {
+      background: $ui-blue;
+      border-color: $ui-ink;
+
+      @media (hover: hover) {
+        &:hover {
+          background: $ui-blue;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  &__body {
+    padding: 12px 24px 24px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: 24px;
+    font-size: 14px;
+    color: $ui-muted;
+    border-top: 1px solid $ui-divider;
+  }
+}
+
+.category {
+  &__list {
+    display: grid;
+    gap: 12px;
+  }
+
+  @for $i from 1 through list.length($category-colors) {
+    &__item:nth-child(#{list.length($category-colors)}n + #{$i}) &__icon {
+      background-color: list.nth($category-colors, $i);
+    }
+  }
+
+  &__button {
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+    color: inherit;
+    text-align: left;
+    @include ui-card;
+
+    &_active {
+      background: $ui-yellow;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    border-radius: $ui-radius - 2px;
+  }
+
+  &__text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  &__caption {
+    font-size: 12px;
+    color: $ui-muted;
+  }
+
+  &__button_active &__caption {
+    color: $ui-ink;
+  }
+
+  &__radio {
+    flex-shrink: 0;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: $ui-white;
+    border: $ui-outline solid $ui-ink;
+    border-radius: 100px;
+    transition: background-color 150ms $timing-function;
+  }
+
+  &__button_active &__radio {
+    background: $ui-ink;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 12px;
+      border-right: $ui-outline solid $ui-white;
+      border-bottom: $ui-outline solid $ui-white;
+      transform: translate(-50%, -60%) rotate(45deg);
+    }
+  }
+}
+
+.preview {
+  margin-bottom: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: $ui-surface;
+  border-radius: $ui-radius + 6px;
+
+  &__card {
+    width: 120px;
+    aspect-ratio: 1;
+    perspective: 600px;
+    font-size: 40px;
+  }
+
+  &__content {
+    animation: preview-spin $preview-duration linear infinite;
+  }
+
+  &__shadow {
+    width: 120px;
+    height: 16px;
+    background-image: radial-gradient(closest-side, $card-shadow, transparent);
+    animation: preview-shadow $preview-duration linear infinite;
+  }
+}
+
+@keyframes preview-spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes preview-shadow {
+  0%,
+  50%,
+  100% {
+    transform: scaleX(1);
+  }
+
+  25%,
+  75% {
+    transform: scaleX(0.4);
+  }
+}
+
+.design {
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  &__button {
+    width: 100%;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    color: inherit;
+    @include ui-card;
+
+    &_active {
+      background: $ui-yellow;
+    }
+  }
+
+  &__swatch {
+    position: relative;
+    width: 64px;
+    aspect-ratio: 1;
+  }
+}

@@ -1,0 +1,158 @@
+@use "sass:map";
+@use "../../abstracts/variables" as *;
+@use "../../abstracts/mixins" as *;
+
+$card-designs: (
+  notebook: (
+    color: $notebook-paper,
+    front: $notebook-front,
+    border: $notebook-border,
+    image: (
+      linear-gradient(90deg, transparent calc(100% - 20px), $notebook-margin 0 calc(100% - 18px), transparent 0),
+      linear-gradient($notebook-line 1px, transparent 1px),
+      linear-gradient(90deg, $notebook-line 1px, transparent 1px),
+    ),
+    size: (100% 100%, 12px 12px, 12px 12px),
+  ),
+  waves: (
+    color: $waves-background,
+    front: $waves-front,
+    border: $waves-border,
+    image: (
+      radial-gradient(circle at 25% 100%, transparent 6px, $waves-accent 7px 9px, transparent 10px),
+      radial-gradient(circle at 75% 0, transparent 6px, $waves-accent 7px 9px, transparent 10px),
+    ),
+    size: 64px 40px,
+  ),
+  checker: (
+    color: $checker-background,
+    front: $checker-front,
+    border: $checker-border,
+    image: conic-gradient($checker-accent 25%, transparent 0 50%, $checker-accent 0 75%, transparent 0),
+    size: 25% 25%,
+  ),
+  peas: (
+    color: $peas-background,
+    front: $peas-front,
+    border: $peas-border,
+    image: (
+      radial-gradient(circle closest-side, $peas-accent 0 32%, transparent 38%),
+      radial-gradient(circle closest-side, $peas-accent 0 32%, transparent 38%),
+    ),
+    size: 18px 18px,
+    position: (0 0, 9px 9px),
+  ),
+  gingham: (
+    color: $gingham-background,
+    front: $gingham-front,
+    border: $gingham-border,
+    image: (
+      linear-gradient(90deg, $gingham-accent 50%, transparent 0),
+      linear-gradient($gingham-accent 50%, transparent 0),
+    ),
+    size: 16px 16px,
+  ),
+  bars: (
+    color: $bars-background,
+    front: $bars-front,
+    border: $bars-border,
+    image: repeating-linear-gradient(90deg, $bars-accent 0 8px, $bars-accent-light 8px 16px, transparent 16px 24px),
+    size: auto,
+  ),
+);
+
+$card-default-design: notebook;
+
+@mixin card-back-pattern($name) {
+  $pattern: map.get($card-designs, $name);
+
+  background-color: map.get($pattern, color);
+  background-image: map.get($pattern, image);
+  background-size: map.get($pattern, size);
+  background-position: map.get($pattern, position);
+}
+
+.card {
+  &__list {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 120px));
+    justify-content: center;
+    gap: 16px;
+
+    @include mobile {
+      gap: 8px;
+    }
+    --card-border: #{map.get($card-designs, $card-default-design, border)};
+
+    @each $name, $design in $card-designs {
+      &_#{$name} .card__back {
+        @include card-back-pattern($name);
+      }
+
+      &_#{$name} {
+        --card-border: #{map.get($design, border)};
+      }
+
+      &_#{$name} .card__front {
+        background-color: map.get($design, front);
+      }
+    }
+  }
+
+  &__item {
+    aspect-ratio: 1;
+    perspective: 1000px;
+    // TODO
+    font-size: 32px;
+
+    @media (hover: hover) {
+      cursor: pointer;
+    }
+
+    &_flipped {
+      .card__content {
+        transform: rotateY(180deg);
+      }
+    }
+
+    &_blocked {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
+
+  &__content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 400ms $timing-function;
+  }
+
+  &__back,
+  &__front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: $card-border-width solid var(--card-border);
+    border-radius: 4px;
+    box-shadow:
+      $card-depth $card-depth 0 var(--card-border),
+      ($card-depth + 2px) ($card-depth + 4px) 8px $card-shadow;
+    overflow: hidden;
+    backface-visibility: hidden;
+  }
+
+  &__front {
+    background-color: map.get($card-designs, $card-default-design, front);
+    transform: rotateY(180deg);
+  }
+
+  &__back {
+    @include card-back-pattern($card-default-design);
+  }
+}
