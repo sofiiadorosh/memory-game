@@ -1,8 +1,25 @@
 @use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+body {
+  background-color: $page-background;
+  background-image:
+    linear-gradient($page-grid 1px, transparent 1px),
+    linear-gradient(90deg, $page-grid 1px, transparent 1px);
+  background-size: $page-grid-size $page-grid-size;
+
+  @include mobile {
+    padding-bottom: $bottom-nav-height;
+  }
+}
 
 .container {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
   padding: 40px;
+
+  @include mobile {
+    padding: 16px;
+  }
 }

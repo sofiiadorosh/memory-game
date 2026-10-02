@@ -1,5 +1,8 @@
 $timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
+$mobile-max-width: 899px;
+$bottom-nav-height: 80px;
+
 $card-border-width: 1px;
 $card-depth: 2px;
 $card-shadow: rgba(0, 0, 0, 0.16);
@@ -50,6 +53,10 @@ $ui-green: #7fcf7d;
 $ui-outline: 2px;
 $ui-shadow: 4px;
 $ui-radius: 10px;
+
+$page-background: #fdeef4;
+$page-grid: rgba(244, 143, 199, 0.18);
+$page-grid-size: 24px;
 
 $sidebar-backdrop: rgba(34, 37, 45, 0.35);
 $sidebar-panel-shadow: 0 24px 48px rgba(34, 37, 45, 0.18);

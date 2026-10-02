@@ -9,6 +9,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include mobile {
+      justify-content: center;
+    }
   }
 
   .control {
@@ -16,10 +20,27 @@
       display: flex;
       align-items: center;
       gap: 16px;
+
+      @include mobile {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1;
+        padding: 8px 16px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        background: $ui-white;
+        border-top: $ui-outline solid $ui-ink;
+      }
     }
 
     &__button {
       padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-family: inherit;
       font-size: 14px;
       font-weight: 600;
@@ -29,6 +50,37 @@
       &_primary {
         background: $ui-yellow;
       }
+
+      @include mobile {
+        width: 100%;
+        padding: 8px;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 12px;
+        background: transparent;
+        border-color: transparent;
+        box-shadow: none;
+
+        &:not([aria-pressed="true"]):hover {
+          transform: none;
+          box-shadow: none;
+        }
+
+        &_primary {
+          background: $ui-yellow;
+          border-color: $ui-ink;
+        }
+      }
+    }
+
+    &__emoji {
+      display: none;
+      font-size: 20px;
+      line-height: 1;
+
+      @include mobile {
+        display: block;
+      }
     }
   }
 
@@ -37,6 +89,10 @@
       display: flex;
       align-items: center;
       gap: 16px;
+
+      @include mobile {
+        gap: 8px;
+      }
     }
 
     &__item {

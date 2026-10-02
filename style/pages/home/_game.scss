@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "../../abstracts/variables" as *;
+@use "../../abstracts/mixins" as *;
 
 $card-designs: (
   notebook: (
@@ -77,6 +78,10 @@ $card-default-design: notebook;
     grid-template-columns: repeat(4, minmax(0, 120px));
     justify-content: center;
     gap: 16px;
+
+    @include mobile {
+      gap: 8px;
+    }
     --card-border: #{map.get($card-designs, $card-default-design, border)};
 
     @each $name, $design in $card-designs {

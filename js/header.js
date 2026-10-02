@@ -1,9 +1,9 @@
 import { createElement } from "./dom.js";
 
 export function createHeader() {
-  const settingsButton = createControlButton("Settings");
-  const newGameButton = createControlButton("New game", "control__button control__button_primary");
-  const leaderboardButton = createControlButton("Leader board");
+  const settingsButton = createControlButton("⚙️", "Settings");
+  const newGameButton = createControlButton("🔄", "New game", "control__button control__button_primary");
+  const leaderboardButton = createControlButton("🏆", "Leader board");
 
   const moves = createElement("span", { className: "stat__number", text: "0" });
   const pairs = createElement("span", { className: "stat__number", text: "0" });
@@ -26,7 +26,10 @@ export function createHeader() {
             children: [
               createElement("li", {
                 className: "stat__item",
-                children: [createElement("span", { className: "stat__title", text: "Moves:" }), moves],
+                children: [
+                  createElement("span", { className: "stat__title", text: "Moves:" }),
+                  moves,
+                ],
               }),
               createElement("li", {
                 className: "stat__item",
@@ -62,6 +65,14 @@ export function createHeader() {
   };
 }
 
-function createControlButton(text, className = "control__button") {
-  return createElement("button", { className, text, attrs: { type: "button" } });
+function createControlButton(emoji, text, className = "control__button") {
+  return createElement("button", {
+    className,
+    attrs: { type: "button" },
+    children: [createEmoji("control__emoji", emoji), text],
+  });
+}
+
+function createEmoji(className, emoji) {
+  return createElement("span", { className, text: emoji, attrs: { "aria-hidden": "true" } });
 }

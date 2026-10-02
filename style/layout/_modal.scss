@@ -206,10 +206,17 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
   &__empty {
     margin-bottom: 20px;
     padding: 32px 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 14px;
     text-align: center;
     color: $ui-muted;
     background: $ui-surface;
     border-radius: $ui-radius + 6px;
+
+    &[hidden] {
+      display: none;
+    }
   }
 }

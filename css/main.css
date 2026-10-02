@@ -67,6 +67,12 @@ a {
   color: inherit;
 }
 
+body {
+  background-color: #fdeef4;
+  background-image: linear-gradient(rgba(244, 143, 199, 0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(244, 143, 199, 0.18) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 .container {
   width: 100%;
   max-width: 1440px;
@@ -100,6 +106,9 @@ a {
 }
 .header .control__button {
   padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -125,6 +134,11 @@ a {
 }
 .header .control__button_primary {
   background: #fad66b;
+}
+.header .control__emoji {
+  display: none;
+  font-size: 20px;
+  line-height: 1;
 }
 .header .stat__list {
   display: -webkit-box;
@@ -400,11 +414,17 @@ a {
 .leaderboard__empty {
   margin-bottom: 20px;
   padding: 32px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 14px;
   text-align: center;
   color: #8b8f99;
   background: #f5f6fa;
   border-radius: 16px;
+}
+.leaderboard__empty[hidden] {
+  display: none;
 }
 
 .sidebar {
@@ -983,4 +1003,55 @@ a {
   background-color: #fdfdf8;
   background-image: linear-gradient(90deg, transparent calc(100% - 20px), #e8706b 0 calc(100% - 18px), transparent 0), linear-gradient(#b8d0ea 1px, transparent 1px), linear-gradient(90deg, #b8d0ea 1px, transparent 1px);
   background-size: 100% 100%, 12px 12px, 12px 12px;
+}
+@media screen and (max-width: 899px) {
+  body {
+    padding-bottom: 80px;
+  }
+  .container {
+    padding: 16px;
+  }
+  .header__container {
+    justify-content: center;
+  }
+  .header .control__list {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding: 8px 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: #ffffff;
+    border-top: 2px solid #22252d;
+  }
+  .header .control__button {
+    width: 100%;
+    padding: 8px;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 12px;
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+  }
+  .header .control__button:not([aria-pressed="true"]):hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .header .control__button_primary {
+    background: #fad66b;
+    border-color: #22252d;
+  }
+  .header .control__emoji {
+    display: block;
+  }
+  .header .stat__list {
+    gap: 8px;
+  }
+  .card__list {
+    gap: 8px;
+  }
 }/*# sourceMappingURL=main.css.map */
