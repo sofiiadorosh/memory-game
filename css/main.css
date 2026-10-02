@@ -137,8 +137,6 @@ body {
   -webkit-box-shadow: 4px 4px 0 #22252d;
           box-shadow: 4px 4px 0 #22252d;
   background: #fad66b;
-  -webkit-transform: rotate(-3deg);
-          transform: rotate(-3deg);
 }
 .header .control__list {
   -webkit-box-flex: 1;
