@@ -31,7 +31,6 @@
       padding: 4px 12px;
       @include ui-box;
       background: $ui-yellow;
-      transform: rotate(-3deg);
     }
   }
 
@@ -79,19 +78,6 @@
         gap: 4px;
         font-size: 14px;
         white-space: nowrap;
-        background: transparent;
-        border-color: transparent;
-        box-shadow: none;
-
-        &:not([aria-pressed="true"]):hover {
-          transform: none;
-          box-shadow: none;
-        }
-
-        &_primary {
-          background: $ui-yellow;
-          border-color: $ui-ink;
-        }
       }
     }
   }

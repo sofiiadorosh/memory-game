@@ -137,8 +137,6 @@ body {
   -webkit-box-shadow: 4px 4px 0 #22252d;
           box-shadow: 4px 4px 0 #22252d;
   background: #fad66b;
-  -webkit-transform: rotate(-3deg);
-          transform: rotate(-3deg);
 }
 .header .control__list {
   -webkit-box-flex: 1;
@@ -213,20 +211,6 @@ body {
     gap: 4px;
     font-size: 14px;
     white-space: nowrap;
-    background: transparent;
-    border-color: transparent;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-  }
-  .header .control__button:not([aria-pressed=true]):hover {
-    -webkit-transform: none;
-            transform: none;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-  }
-  .header .control__button_primary {
-    background: #fad66b;
-    border-color: #22252d;
   }
 }
 .header .stat__list {
@@ -313,6 +297,7 @@ body {
   width: calc(100% - 32px);
   max-width: 560px;
   max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
   padding: 24px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: #22252d;
@@ -348,6 +333,7 @@ body {
           flex-direction: column;
   max-width: 458px;
   height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
   max-height: none;
   padding: 0;
   overflow: hidden;
@@ -594,6 +580,7 @@ body {
   width: calc(100% - 32px);
   max-width: 480px;
   height: calc(100vh - 32px);
+  height: calc(100dvh - 32px);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
