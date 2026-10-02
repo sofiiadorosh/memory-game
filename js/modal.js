@@ -2,6 +2,14 @@ import { createElement } from "./dom.js";
 
 const SCROLL_LOCK_CLASS = "scroll-locked";
 
+const openModals = [];
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    openModals.at(-1)?.close();
+  }
+});
+
 export function createModal({ id, className = "modal", title, subtitle, content = [], focusTarget }) {
   const titleId = `${id}-title`;
 
@@ -31,27 +39,36 @@ export function createModal({ id, className = "modal", title, subtitle, content 
     ],
   });
 
+  const modal = { element, open, close };
+
   let lastFocused = null;
 
   element.addEventListener("click", onModalClick);
 
   function open() {
+    if (openModals.includes(modal)) {
+      return;
+    }
+
     lastFocused = document.activeElement;
+    openModals.push(modal);
 
     element.classList.add("modal_opened");
     element.setAttribute("aria-hidden", "false");
-    setBackgroundInert(true);
-    document.body.classList.add(SCROLL_LOCK_CLASS);
-    document.addEventListener("keydown", onEscapePress);
+    updatePage();
     (focusTarget ?? element.querySelector("button")).focus();
   }
 
   function close() {
+    if (!openModals.includes(modal)) {
+      return;
+    }
+
+    openModals.splice(openModals.indexOf(modal), 1);
+
     element.classList.remove("modal_opened");
     element.setAttribute("aria-hidden", "true");
-    setBackgroundInert(false);
-    document.body.classList.remove(SCROLL_LOCK_CLASS);
-    document.removeEventListener("keydown", onEscapePress);
+    updatePage();
     lastFocused?.focus();
   }
 
@@ -61,23 +78,18 @@ export function createModal({ id, className = "modal", title, subtitle, content 
     }
   }
 
-  function onEscapePress(e) {
-    if (e.key === "Escape") {
-      close();
-    }
-  }
+  return modal;
+}
 
-  function setBackgroundInert(isInert) {
-    const background = [document.querySelector(".header"), ...element.parentElement.children];
+function updatePage() {
+  const topModal = openModals.at(-1)?.element;
+  const page = [document.querySelector(".header"), ...document.querySelector("main").children];
 
-    background
-      .filter((node) => node !== element)
-      .forEach((node) => {
-        node.inert = isInert;
-      });
-  }
+  page.forEach((node) => {
+    node.inert = Boolean(topModal) && node !== topModal;
+  });
 
-  return { element, open, close };
+  document.body.classList.toggle(SCROLL_LOCK_CLASS, Boolean(topModal));
 }
 
 export function createModalButton(text, { isPrimary = false, attrs = {} } = {}) {

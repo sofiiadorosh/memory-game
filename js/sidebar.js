@@ -175,7 +175,7 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
   function onCategoryListClick(e) {
     const button = e.target.closest(".category__button");
 
-    if (button) {
+    if (button && button !== selectedCategory) {
       selectCategory(button);
     }
   }

@@ -16,7 +16,7 @@ export function createGame({ stats, onWin }) {
   let isResultSaved = false;
   let firstCard = null;
   let isBoardLocked = false;
-  let flipBackTimeout = null;
+  let pendingTimeout = null;
   let movesCount = 0;
   let pairsCount = 0;
 
@@ -25,7 +25,7 @@ export function createGame({ stats, onWin }) {
   function start(nextEmojis = emojis) {
     emojis = nextEmojis;
 
-    clearTimeout(flipBackTimeout);
+    clearTimeout(pendingTimeout);
     firstCard = null;
     isBoardLocked = false;
     isResultSaved = false;
@@ -64,27 +64,18 @@ export function createGame({ stats, onWin }) {
       stats.setPairs(pairsCount);
       firstCard = null;
 
-      const isWin = pairsCount === emojis.length;
-
-      if (isWin) {
+      if (pairsCount === emojis.length) {
         saveWin();
+        pendingTimeout = setTimeout(() => onWin(movesCount), getFlipDuration(secondCard));
       }
 
-      isBoardLocked = true;
-      flipBackTimeout = setTimeout(() => {
-        isBoardLocked = false;
-
-        if (isWin) {
-          onWin(movesCount);
-        }
-      }, getFlipDuration(secondCard));
       return;
     }
 
     isBoardLocked = true;
     const openedCard = firstCard;
 
-    flipBackTimeout = setTimeout(() => {
+    pendingTimeout = setTimeout(() => {
       openedCard.classList.remove("card__item_flipped");
       secondCard.classList.remove("card__item_flipped");
       firstCard = null;
