@@ -211,20 +211,6 @@ body {
     gap: 4px;
     font-size: 14px;
     white-space: nowrap;
-    background: transparent;
-    border-color: transparent;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-  }
-  .header .control__button:not([aria-pressed=true]):hover {
-    -webkit-transform: none;
-            transform: none;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-  }
-  .header .control__button_primary {
-    background: #fad66b;
-    border-color: #22252d;
   }
 }
 .header .stat__list {
