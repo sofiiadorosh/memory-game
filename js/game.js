@@ -69,7 +69,6 @@ export function createGame({ stats, onWin }) {
   function dealCards(cards) {
     cards.forEach((card) => moveCard(card, getOffsetToCenter(card), "none"));
 
-    // Apply the stacked position before animating back to the grid
     cardList.getBoundingClientRect();
 
     cards.forEach((card, index) => {
