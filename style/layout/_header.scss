@@ -74,10 +74,11 @@
 
       @include mobile {
         width: 100%;
-        padding: 8px;
+        padding: 16px 4px;
         flex-direction: column;
         gap: 4px;
-        font-size: 12px;
+        font-size: 14px;
+        white-space: nowrap;
         background: transparent;
         border-color: transparent;
         box-shadow: none;
@@ -91,16 +92,6 @@
           background: $ui-yellow;
           border-color: $ui-ink;
         }
-      }
-    }
-
-    &__emoji {
-      display: none;
-      font-size: 20px;
-      line-height: 1;
-
-      @include mobile {
-        display: block;
       }
     }
   }

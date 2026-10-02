@@ -66,6 +66,8 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
     max-width: 458px;
     height: calc(100vh - 32px);
     max-height: none;
+    padding: 0;
+    overflow: hidden;
     opacity: 1;
     transform: translateX(calc(100% + 32px));
     transition: transform $sidebar-duration $timing-function;
@@ -73,6 +75,24 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
 
   &_side#{&}_opened &__window {
     transform: none;
+  }
+
+  &_side &__header {
+    margin-bottom: 0;
+    padding: 24px 24px 12px;
+  }
+
+  &__body {
+    padding: 12px 24px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    padding: 24px;
+    border-top: 1px solid $ui-divider;
   }
 
   &__header {
@@ -148,7 +168,6 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
   }
 
   &__table {
-    margin-bottom: 20px;
     font-size: 14px;
   }
 
@@ -204,7 +223,6 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
   }
 
   &__empty {
-    margin-bottom: 20px;
     padding: 32px 16px;
     display: flex;
     justify-content: center;

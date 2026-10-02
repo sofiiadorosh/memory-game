@@ -48,7 +48,7 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
                   createElement("div", {
                     className: "sidebar__content",
                     children: [
-                      createElement("h2", { className: "sidebar__title", text: "Settings", attrs: { id: "sidebar-title" } }),
+                      createElement("h2", { className: "sidebar__title", text: "Settings ⚙️", attrs: { id: "sidebar-title" } }),
                       createElement("p", { className: "sidebar__subtitle", text: "Choose what you want to play with" }),
                     ],
                   }),

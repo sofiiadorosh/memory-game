@@ -39,7 +39,13 @@ export function createLeaderboard() {
     className: "modal modal_side",
     title: "Leader board 🏆",
     subtitle: "Top 10 games with the fewest moves",
-    content: [table, emptyMessage, createModalButton("Close", { isPrimary: true, attrs: { "data-modal-close": true } })],
+    content: [
+      createElement("div", { className: "modal__body", children: [table, emptyMessage] }),
+      createElement("div", {
+        className: "modal__footer",
+        children: [createModalButton("Close", { isPrimary: true, attrs: { "data-modal-close": true } })],
+      }),
+    ],
   });
 
   function open() {
