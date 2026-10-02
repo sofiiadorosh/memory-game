@@ -1,58 +1,127 @@
+import { applyDesign } from "./designs.js";
+import { createElement } from "./dom.js";
 import { addResult } from "./storage.js";
-import { showVictory } from "./victory.js";
 
 const FLIP_BACK_DELAY = 1500;
 
-const cardList = document.querySelector(".game .card__list");
-const moves = document.querySelector("#moves");
-const pairs = document.querySelector("#pairs");
-const pairsTotal = document.querySelector(".stat__total");
-const newGameButton = document.querySelector("[data-new-game]");
+export function createGame({ stats, onWin }) {
+  const cardList = createElement("ul", { className: "card__list" });
 
-let emojis = [];
-let isResultSaved = false;
-let firstCard = null;
-let isBoardLocked = false;
-let flipBackTimeout = null;
-let movesCount = 0;
-let pairsCount = 0;
+  const element = createElement("section", {
+    className: "game",
+    children: [createElement("div", { className: "container game__container", children: [cardList] })],
+  });
 
-cardList.addEventListener("click", onCardListClick);
-newGameButton.addEventListener("click", startGame);
-document.addEventListener("categorychange", onCategoryChange);
+  let emojis = [];
+  let isResultSaved = false;
+  let firstCard = null;
+  let isBoardLocked = false;
+  let flipBackTimeout = null;
+  let movesCount = 0;
+  let pairsCount = 0;
 
-function onCategoryChange(e) {
-  emojis = e.detail.emojis;
-  startGame();
+  cardList.addEventListener("click", onCardListClick);
+
+  function start(nextEmojis = emojis) {
+    emojis = nextEmojis;
+
+    clearTimeout(flipBackTimeout);
+    firstCard = null;
+    isBoardLocked = false;
+    isResultSaved = false;
+    movesCount = 0;
+    pairsCount = 0;
+
+    stats.setMoves(movesCount);
+    stats.setPairs(pairsCount);
+    stats.setPairsTotal(emojis.length);
+
+    cardList.replaceChildren(...shuffle([...emojis, ...emojis]).map(createCard));
+  }
+
+  function onCardListClick(e) {
+    const chosenCard = e.target.closest(".card__item");
+
+    if (!chosenCard || isBoardLocked || chosenCard.classList.contains("card__item_flipped")) {
+      return;
+    }
+
+    chosenCard.classList.add("card__item_flipped");
+
+    if (!firstCard) {
+      firstCard = chosenCard;
+      return;
+    }
+
+    const secondCard = chosenCard;
+    movesCount += 1;
+    stats.setMoves(movesCount);
+
+    if (firstCard.dataset.id === secondCard.dataset.id) {
+      firstCard.classList.add("card__item_blocked");
+      secondCard.classList.add("card__item_blocked");
+      pairsCount += 1;
+      stats.setPairs(pairsCount);
+      firstCard = null;
+
+      const isWin = pairsCount === emojis.length;
+
+      if (isWin) {
+        saveWin();
+      }
+
+      isBoardLocked = true;
+      flipBackTimeout = setTimeout(() => {
+        isBoardLocked = false;
+
+        if (isWin) {
+          onWin(movesCount);
+        }
+      }, getFlipDuration(secondCard));
+      return;
+    }
+
+    isBoardLocked = true;
+    const openedCard = firstCard;
+
+    flipBackTimeout = setTimeout(() => {
+      openedCard.classList.remove("card__item_flipped");
+      secondCard.classList.remove("card__item_flipped");
+      firstCard = null;
+      isBoardLocked = false;
+    }, FLIP_BACK_DELAY);
+  }
+
+  function saveWin() {
+    if (isResultSaved) {
+      return;
+    }
+
+    isResultSaved = true;
+    addResult({ moves: movesCount, date: Date.now() });
+  }
+
+  return {
+    element,
+    start,
+    setDesign: (name) => applyDesign(cardList, name),
+  };
 }
 
-function startGame() {
-  clearTimeout(flipBackTimeout);
-  firstCard = null;
-  isBoardLocked = false;
-  isResultSaved = false;
-  movesCount = 0;
-  pairsCount = 0;
-
-  moves.textContent = movesCount;
-  pairs.textContent = pairsCount;
-  pairsTotal.textContent = emojis.length;
-
-  renderCards(shuffle([...emojis, ...emojis]));
-}
-
-function renderCards(deck) {
-  cardList.innerHTML = deck
-    .map(
-      (emoji) => `
-        <li class="card__item" data-id="${emoji}">
-          <div class="card__content">
-            <div class="card__back"></div>
-            <div class="card__front">${emoji}</div>
-          </div>
-        </li>`,
-    )
-    .join("");
+function createCard(emoji) {
+  return createElement("li", {
+    className: "card__item",
+    attrs: { "data-id": emoji },
+    children: [
+      createElement("div", {
+        className: "card__content",
+        children: [
+          createElement("div", { className: "card__back" }),
+          createElement("div", { className: "card__front", text: emoji }),
+        ],
+      }),
+    ],
+  });
 }
 
 function shuffle(items) {
@@ -64,70 +133,8 @@ function shuffle(items) {
   return items;
 }
 
-function onCardListClick(e) {
-  const chosenCard = e.target.closest(".card__item");
-
-  if (!chosenCard || isBoardLocked || chosenCard.classList.contains("card__item_flipped")) {
-    return;
-  }
-
-  chosenCard.classList.add("card__item_flipped");
-
-  if (!firstCard) {
-    firstCard = chosenCard;
-    return;
-  }
-
-  const secondCard = chosenCard;
-  movesCount += 1;
-  moves.textContent = movesCount;
-
-  if (firstCard.dataset.id === secondCard.dataset.id) {
-    firstCard.classList.add("card__item_blocked");
-    secondCard.classList.add("card__item_blocked");
-    pairsCount += 1;
-    pairs.textContent = pairsCount;
-    firstCard = null;
-
-    const isWin = pairsCount === emojis.length;
-
-    if (isWin) {
-      saveWin();
-    }
-
-    isBoardLocked = true;
-    flipBackTimeout = setTimeout(() => {
-      isBoardLocked = false;
-
-      if (isWin) {
-        showVictory(movesCount, startGame);
-      }
-    }, getFlipDuration(secondCard));
-    return;
-  }
-
-  isBoardLocked = true;
-  const openedCard = firstCard;
-
-  flipBackTimeout = setTimeout(() => {
-    openedCard.classList.remove("card__item_flipped");
-    secondCard.classList.remove("card__item_flipped");
-    firstCard = null;
-    isBoardLocked = false;
-  }, FLIP_BACK_DELAY);
-}
-
 function getFlipDuration(card) {
   const content = card.querySelector(".card__content");
 
   return parseFloat(getComputedStyle(content).transitionDuration) * 1000;
-}
-
-function saveWin() {
-  if (isResultSaved) {
-    return;
-  }
-
-  isResultSaved = true;
-  addResult({ moves: movesCount, date: Date.now() });
 }

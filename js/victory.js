@@ -1,22 +1,36 @@
-import { createModal } from "./modal.js";
+import { createElement } from "./dom.js";
+import { createModal, createModalButton } from "./modal.js";
 
-const element = document.querySelector("#victory");
-const movesValue = element.querySelector(".victory__moves");
-const newGameButton = element.querySelector("[data-victory-new-game]");
+export function createVictory({ onNewGame }) {
+  const movesValue = createElement("span", { className: "victory__moves", text: "0" });
+  const newGameButton = createModalButton("New game", { isPrimary: true });
 
-const modal = createModal(element);
+  const modal = createModal({
+    id: "victory",
+    title: "You won! 🎉",
+    subtitle: "All pairs are found",
+    focusTarget: newGameButton,
+    content: [
+      createElement("div", {
+        className: "victory__result",
+        children: [createElement("span", { className: "victory__label", text: "Moves" }), movesValue],
+      }),
+      createElement("div", {
+        className: "modal__actions",
+        children: [newGameButton, createModalButton("Close", { attrs: { "data-modal-close": true } })],
+      }),
+    ],
+  });
 
-let onNewGame = null;
+  newGameButton.addEventListener("click", () => {
+    modal.close();
+    onNewGame();
+  });
 
-newGameButton.addEventListener("click", onNewGameClick);
+  function show(moves) {
+    movesValue.textContent = moves;
+    modal.open();
+  }
 
-export function showVictory(moves, newGameHandler) {
-  movesValue.textContent = moves;
-  onNewGame = newGameHandler;
-  modal.open();
-}
-
-function onNewGameClick() {
-  modal.close();
-  onNewGame?.();
+  return { element: modal.element, show };
 }

@@ -57,6 +57,24 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
     transform: translate(-50%, -50%);
   }
 
+  &_side &__window {
+    top: 16px;
+    right: 16px;
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 458px;
+    height: calc(100vh - 32px);
+    max-height: none;
+    opacity: 1;
+    transform: translateX(calc(100% + 32px));
+    transition: transform $sidebar-duration $timing-function;
+  }
+
+  &_side#{&}_opened &__window {
+    transform: none;
+  }
+
   &__header {
     margin-bottom: 20px;
     display: flex;
@@ -124,6 +142,11 @@ $rank-colors: $ui-yellow, $ui-blue, $ui-orange, $ui-pink, $ui-green;
 }
 
 .leaderboard {
+  &__table,
+  &__empty {
+    flex-grow: 1;
+  }
+
   &__table {
     margin-bottom: 20px;
     font-size: 14px;

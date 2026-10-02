@@ -1,37 +1,81 @@
-import { createModal } from "./modal.js";
+import { createElement } from "./dom.js";
+import { createModal, createModalButton } from "./modal.js";
 import { getResults } from "./storage.js";
 
-const element = document.querySelector("#leaderboard");
-const tableBody = element.querySelector(".leaderboard__body");
-const table = element.querySelector(".leaderboard__table");
-const emptyMessage = element.querySelector(".leaderboard__empty");
-const openButton = document.querySelector("[data-leaderboard-open]");
+const COLUMNS = ["Place", "Moves", "Date"];
 
-const modal = createModal(element);
+export function createLeaderboard() {
+  const tableBody = createElement("div", { className: "leaderboard__body", attrs: { role: "rowgroup" } });
 
-openButton.addEventListener("click", openLeaderboard);
+  const table = createElement("div", {
+    className: "leaderboard__table",
+    attrs: { role: "table", "aria-labelledby": "leaderboard-title" },
+    children: [
+      createElement("div", {
+        className: "leaderboard__head",
+        attrs: { role: "rowgroup" },
+        children: [
+          createElement("div", {
+            className: "leaderboard__row leaderboard__row_head",
+            attrs: { role: "row" },
+            children: COLUMNS.map((column) =>
+              createElement("div", { className: "leaderboard__heading", text: column, attrs: { role: "columnheader" } }),
+            ),
+          }),
+        ],
+      }),
+      tableBody,
+    ],
+  });
 
-function openLeaderboard() {
-  renderResults();
-  modal.open();
+  const emptyMessage = createElement("p", {
+    className: "leaderboard__empty",
+    text: "No results yet",
+    attrs: { hidden: true },
+  });
+
+  const modal = createModal({
+    id: "leaderboard",
+    className: "modal modal_side",
+    title: "Leader board 🏆",
+    subtitle: "Top 10 games with the fewest moves",
+    content: [table, emptyMessage, createModalButton("Close", { isPrimary: true, attrs: { "data-modal-close": true } })],
+  });
+
+  function open() {
+    renderResults();
+    modal.open();
+  }
+
+  function renderResults() {
+    const results = getResults();
+
+    table.hidden = results.length === 0;
+    emptyMessage.hidden = results.length > 0;
+    tableBody.replaceChildren(...results.map(createRow));
+  }
+
+  return { element: modal.element, open };
 }
 
-function renderResults() {
-  const results = getResults();
-
-  table.hidden = results.length === 0;
-  emptyMessage.hidden = results.length > 0;
-
-  tableBody.innerHTML = results
-    .map(
-      ({ moves, date }, index) => `
-        <div class="leaderboard__row" role="row">
-          <div class="leaderboard__cell" role="cell"><span class="leaderboard__rank">${index + 1}</span></div>
-          <div class="leaderboard__cell leaderboard__cell_strong" role="cell">${moves}</div>
-          <div class="leaderboard__cell leaderboard__cell_muted" role="cell">${formatDate(date)}</div>
-        </div>`,
-    )
-    .join("");
+function createRow({ moves, date }, index) {
+  return createElement("div", {
+    className: "leaderboard__row",
+    attrs: { role: "row" },
+    children: [
+      createElement("div", {
+        className: "leaderboard__cell",
+        attrs: { role: "cell" },
+        children: [createElement("span", { className: "leaderboard__rank", text: index + 1 })],
+      }),
+      createElement("div", { className: "leaderboard__cell leaderboard__cell_strong", text: moves, attrs: { role: "cell" } }),
+      createElement("div", {
+        className: "leaderboard__cell leaderboard__cell_muted",
+        text: formatDate(date),
+        attrs: { role: "cell" },
+      }),
+    ],
+  });
 }
 
 function formatDate(timestamp) {
