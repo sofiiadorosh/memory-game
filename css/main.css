@@ -71,7 +71,9 @@ a {
 }
 
 .header {
-  padding: 40px 0;
+  padding: 32px 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #22252d;
 }
 .header__container {
   display: -webkit-box;
@@ -93,6 +95,34 @@ a {
           align-items: center;
   gap: 16px;
 }
+.header .control__button {
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: inherit;
+  background: #ffffff;
+  border: 2px solid #22252d;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 0 #22252d;
+          box-shadow: 4px 4px 0 #22252d;
+  -webkit-transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (hover: hover) {
+  .header .control__button:not([aria-pressed=true]):hover {
+    -webkit-transform: translate(-1px, -1px);
+            transform: translate(-1px, -1px);
+    -webkit-box-shadow: 5px 5px 0 #22252d;
+            box-shadow: 5px 5px 0 #22252d;
+    cursor: pointer;
+  }
+}
+.header .control__button_primary {
+  background: #fad66b;
+}
 .header .stat__list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -103,13 +133,40 @@ a {
   gap: 16px;
 }
 .header .stat__item {
+  padding: 12px 16px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 2px solid #22252d;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 4px 0 #22252d;
+          box-shadow: 4px 4px 0 #22252d;
+}
+.header .stat__title {
+  font-size: 14px;
+  color: #8b8f99;
+}
+.header .stat__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
   gap: 4px;
+}
+.header .stat__number {
+  font-size: 16px;
+  font-weight: 700;
+}
+.header .stat__delimiter, .header .stat__total {
+  font-size: 14px;
+  color: #8b8f99;
 }
 
 .sidebar {
@@ -232,7 +289,7 @@ a {
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 @media (hover: hover) {
-  .sidebar__close:not([aria-pressed="true"]):hover {
+  .sidebar__close:not([aria-pressed=true]):hover {
     -webkit-transform: translate(-1px, -1px);
             transform: translate(-1px, -1px);
     -webkit-box-shadow: 5px 5px 0 #22252d;
@@ -349,7 +406,7 @@ a {
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 @media (hover: hover) {
-  .category__button:not([aria-pressed="true"]):hover {
+  .category__button:not([aria-pressed=true]):hover {
     -webkit-transform: translate(-1px, -1px);
             transform: translate(-1px, -1px);
     -webkit-box-shadow: 5px 5px 0 #22252d;
@@ -534,7 +591,7 @@ a {
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-transform 150ms cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 @media (hover: hover) {
-  .design__button:not([aria-pressed="true"]):hover {
+  .design__button:not([aria-pressed=true]):hover {
     -webkit-transform: translate(-1px, -1px);
             transform: translate(-1px, -1px);
     -webkit-box-shadow: 5px 5px 0 #22252d;

@@ -159,7 +159,10 @@ function onDesignListClick(e) {
 
 function selectCategory(button) {
   selectedCategory = toggleSelection(selectedCategory, button, "category__button_active");
-  previewFront.textContent = categories[button.dataset.category][0];
+  const emojis = categories[button.dataset.category];
+
+  previewFront.textContent = emojis[0];
+  document.dispatchEvent(new CustomEvent("categorychange", { detail: { emojis } }));
 }
 
 function selectDesign(button) {

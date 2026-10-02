@@ -1,0 +1,24 @@
+@use "./variables" as *;
+
+@mixin ui-box {
+  background: $ui-white;
+  border: $ui-outline solid $ui-ink;
+  border-radius: $ui-radius;
+  box-shadow: $ui-shadow $ui-shadow 0 $ui-ink;
+}
+
+@mixin ui-card {
+  @include ui-box;
+  transition:
+    transform 150ms $timing-function,
+    box-shadow 150ms $timing-function,
+    background-color 150ms $timing-function;
+
+  @media (hover: hover) {
+    &:not([aria-pressed="true"]):hover {
+      transform: translate(-1px, -1px);
+      box-shadow: ($ui-shadow + 1px) ($ui-shadow + 1px) 0 $ui-ink;
+      cursor: pointer;
+    }
+  }
+}
