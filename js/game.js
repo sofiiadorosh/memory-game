@@ -3,6 +3,10 @@ import { createElement } from "./dom.js";
 import { addResult } from "./storage.js";
 
 const FLIP_BACK_DELAY = 1500;
+const GATHER_DURATION = 300;
+const DEAL_DURATION = 400;
+const DEAL_STAGGER = 20;
+const DEAL_EASING = "cubic-bezier(0.4, 0, 0.2, 1)";
 
 export function createGame({ stats, onWin }) {
   const cardList = createElement("ul", { className: "card__list" });
@@ -17,6 +21,7 @@ export function createGame({ stats, onWin }) {
   let firstCard = null;
   let isBoardLocked = false;
   let pendingTimeout = null;
+  let animationTimeout = null;
   let movesCount = 0;
   let pairsCount = 0;
 
@@ -26,6 +31,7 @@ export function createGame({ stats, onWin }) {
     emojis = nextEmojis;
 
     clearTimeout(pendingTimeout);
+    clearTimeout(animationTimeout);
     firstCard = null;
     isBoardLocked = false;
     isResultSaved = false;
@@ -36,7 +42,53 @@ export function createGame({ stats, onWin }) {
     stats.setPairs(pairsCount);
     stats.setPairsTotal(emojis.length);
 
-    cardList.replaceChildren(...shuffle([...emojis, ...emojis]).map(createCard));
+    const cards = shuffle([...emojis, ...emojis]).map(createCard);
+    const oldCards = [...cardList.children];
+
+    if (oldCards.length === 0 || prefersReducedMotion()) {
+      cardList.replaceChildren(...cards);
+      return;
+    }
+
+    isBoardLocked = true;
+    gatherCards(oldCards);
+
+    animationTimeout = setTimeout(() => {
+      cardList.replaceChildren(...cards);
+      dealCards(cards);
+    }, GATHER_DURATION);
+  }
+
+  function gatherCards(cards) {
+    cards.forEach((card) => {
+      card.classList.remove("card__item_flipped", "card__item_blocked");
+      moveCard(card, getOffsetToCenter(card), `transform ${GATHER_DURATION}ms ${DEAL_EASING}`);
+    });
+  }
+
+  function dealCards(cards) {
+    cards.forEach((card) => moveCard(card, getOffsetToCenter(card), "none"));
+
+    cardList.getBoundingClientRect();
+
+    cards.forEach((card, index) => {
+      moveCard(card, null, `transform ${DEAL_DURATION}ms ${DEAL_EASING} ${index * DEAL_STAGGER}ms`);
+    });
+
+    animationTimeout = setTimeout(
+      () => {
+        cards.forEach((card) => moveCard(card, null, ""));
+        isBoardLocked = false;
+      },
+      DEAL_DURATION + DEAL_STAGGER * cards.length,
+    );
+  }
+
+  function getOffsetToCenter(card) {
+    return {
+      x: cardList.clientWidth / 2 - (card.offsetLeft + card.offsetWidth / 2),
+      y: cardList.clientHeight / 2 - (card.offsetTop + card.offsetHeight / 2),
+    };
   }
 
   function onCardListClick(e) {
@@ -113,6 +165,15 @@ function createCard(emoji) {
       }),
     ],
   });
+}
+
+function moveCard(card, offset, transition) {
+  card.style.transition = transition;
+  card.style.transform = offset ? `translate(${offset.x}px, ${offset.y}px)` : "";
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 function shuffle(items) {
