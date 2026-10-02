@@ -15,6 +15,7 @@ export function createHeader() {
       createElement("div", {
         className: "container header__container",
         children: [
+          createLogo(),
           createElement("ul", {
             className: "control__list",
             children: [settingsButton, newGameButton, leaderboardButton].map((button) =>
@@ -63,6 +64,24 @@ export function createHeader() {
       pairsTotal.textContent = value;
     },
   };
+}
+
+function createLogo() {
+  const logo = createElement("a", {
+    className: "logo",
+    attrs: { href: "./" },
+    children: [
+      createElement("span", { className: "logo__word", text: "Memory" }),
+      createElement("span", { className: "logo__word logo__word_accent", text: "game" }),
+    ],
+  });
+
+  logo.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0 });
+  });
+
+  return logo;
 }
 
 function createControlButton(emoji, text, className = "control__button") {
