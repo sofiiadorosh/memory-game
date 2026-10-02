@@ -1,7 +1,26 @@
 @use "sass:list";
 @use "../abstracts/variables" as *;
 
-$category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
+$category-colors: $ui-orange, $ui-blue, $ui-pink, $ui-green;
+
+@mixin ui-card {
+  background: $ui-white;
+  border: $ui-outline solid $ui-ink;
+  border-radius: $ui-radius;
+  box-shadow: $ui-shadow $ui-shadow 0 $ui-ink;
+  transition:
+    transform 150ms $timing-function,
+    box-shadow 150ms $timing-function,
+    background-color 150ms $timing-function;
+
+  @media (hover: hover) {
+    &:not([aria-pressed="true"]):hover {
+      transform: translate(-1px, -1px);
+      box-shadow: ($ui-shadow + 1px) ($ui-shadow + 1px) 0 $ui-ink;
+      cursor: pointer;
+    }
+  }
+}
 
 .sidebar {
   position: fixed;
@@ -33,16 +52,18 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
     position: absolute;
     top: 16px;
     left: 16px;
+    width: calc(100% - 32px);
+    max-width: 480px;
+    height: calc(100vh - 32px);
     display: flex;
     flex-direction: column;
-    width: calc(100% - 32px);
-    max-width: 458px;
-    height: calc(100vh - 32px);
+    font-family: $ui-font;
+    color: $ui-ink;
+    background: $ui-white;
+    border: $ui-outline solid $ui-ink;
+    border-radius: 16px;
+    box-shadow: $sidebar-panel-shadow;
     overflow: hidden;
-    color: $retro-ink;
-    background-color: $retro-cream;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 12px;
     transform: translateX(calc(-100% - 32px));
     transition: transform $sidebar-duration $timing-function;
   }
@@ -52,48 +73,45 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
   }
 
   &__header {
-    padding: 12px 16px;
+    padding: 24px 24px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__heading {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    background: $retro-purple;
-    border-bottom: $retro-outline solid $retro-ink;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   &__title {
-    font-size: 20px;
-    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 700;
   }
 
-  &__controls {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  &__dot {
-    width: 16px;
-    height: 16px;
-    display: block;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 100px;
-
-    &_pink {
-      background: $retro-pink;
-    }
-
-    &_yellow {
-      background: $retro-yellow;
-    }
+  &__subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    color: $ui-muted;
   }
 
   &__close {
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
     padding: 0;
-    color: $retro-ink;
-    background: $retro-green;
+    color: $ui-ink;
+    @include ui-card;
+    background: $ui-yellow;
 
     &::before,
     &::after {
@@ -101,7 +119,7 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 12px;
+      width: 16px;
       height: 2px;
       background: currentColor;
       border-radius: 1px;
@@ -111,67 +129,66 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
     &::after {
       transform: translate(-50%, -50%) rotate(-45deg);
     }
-
-    @media (hover: hover) {
-      &:hover {
-        cursor: pointer;
-      }
-    }
   }
 
   &__tabs {
-    padding: 12px 16px 0;
-    display: flex;
-    gap: 8px;
-    background: $retro-cream;
-    border-bottom: $retro-outline solid $retro-ink;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    border: $ui-outline solid $ui-ink;
+    border-radius: $ui-radius + 2px;
   }
 
   &__tab {
-    position: relative;
-    top: $retro-outline;
-    padding: 8px 16px;
+    padding: 8px;
+    font-family: inherit;
     font-size: 14px;
-    text-transform: uppercase;
-    color: $retro-ink;
-    background: $retro-purple;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 8px 8px 0 0;
+    font-weight: 600;
+    color: $ui-ink;
+    background: transparent;
+    border: $ui-outline solid transparent;
+    border-radius: $ui-radius - 2px;
+    transition: background-color 150ms $timing-function;
 
     @media (hover: hover) {
       &:hover {
+        background: $ui-surface;
         cursor: pointer;
       }
     }
 
     &_active {
-      background: $retro-white;
-      border-bottom-color: $retro-white;
+      background: $ui-blue;
+      border-color: $ui-ink;
+
+      @media (hover: hover) {
+        &:hover {
+          background: $ui-blue;
+          cursor: default;
+        }
+      }
     }
   }
 
   &__body {
+    padding: 12px 24px 24px;
     flex-grow: 1;
-    padding: 16px;
-    background-image:
-      linear-gradient($retro-grid 1px, transparent 1px),
-      linear-gradient(90deg, $retro-grid 1px, transparent 1px);
-    background-size: 20px 20px;
     overflow-y: auto;
   }
 
   &__footer {
-    padding: 8px 16px;
+    padding: 24px;
     font-size: 14px;
-    background: $retro-pink;
-    border-top: $retro-outline solid $retro-ink;
+    color: $ui-muted;
+    border-top: 1px solid $ui-divider;
   }
 }
 
 .category {
   &__list {
     display: grid;
-    gap: 8px;
+    gap: 12px;
   }
 
   @for $i from 1 through list.length($category-colors) {
@@ -182,66 +199,66 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
 
   &__button {
     width: 100%;
-    padding: 12px 16px;
+    padding: 12px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    font-family: inherit;
+    color: inherit;
     text-align: left;
-    background: $retro-white;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 8px;
-    transition: background-color 150ms $timing-function;
-
-    @media (hover: hover) {
-      &:hover {
-        background: $retro-cream;
-        cursor: pointer;
-      }
-    }
+    @include ui-card;
 
     &_active {
-      cursor: default;
-
-      @media (hover: hover) {
-        &:hover {
-          background: $retro-white;
-          cursor: default;
-        }
-      }
+      background: $ui-yellow;
     }
   }
 
   &__icon {
+    flex-shrink: 0;
     width: 40px;
     height: 40px;
     display: flex;
-    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     font-size: 22px;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 8px;
+    border-radius: $ui-radius - 2px;
+  }
+
+  &__text {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
   &__name {
-    flex-grow: 1;
-    font-size: 15px;
-    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  &__caption {
+    font-size: 12px;
+    color: $ui-muted;
+  }
+
+  &__button_active &__caption {
+    color: $ui-ink;
   }
 
   &__radio {
+    flex-shrink: 0;
     position: relative;
     width: 24px;
     height: 24px;
-    flex-shrink: 0;
-    background: $retro-white;
-    border: $retro-outline solid $retro-ink;
+    background: $ui-white;
+    border: $ui-outline solid $ui-ink;
     border-radius: 100px;
     transition: background-color 150ms $timing-function;
   }
 
   &__button_active &__radio {
-    background: $retro-green;
+    background: $ui-ink;
 
     &::after {
       content: "";
@@ -250,19 +267,22 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
       left: 50%;
       width: 6px;
       height: 12px;
-      border-right: $retro-outline solid $retro-ink;
-      border-bottom: $retro-outline solid $retro-ink;
+      border-right: $ui-outline solid $ui-white;
+      border-bottom: $ui-outline solid $ui-white;
       transform: translate(-50%, -60%) rotate(45deg);
     }
   }
 }
 
 .preview {
+  margin-bottom: 24px;
   padding: 24px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  background: $ui-surface;
+  border-radius: $ui-radius + 6px;
 
   &__card {
     width: 120px;
@@ -306,42 +326,25 @@ $category-colors: $retro-purple, $retro-pink, $retro-yellow, $retro-green;
   &__list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 12px;
   }
 
   &__button {
     width: 100%;
-    aspect-ratio: 1;
-    padding: 16px 8px;
+    padding: 12px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    font-size: 12px;
-    text-transform: uppercase;
+    gap: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
     color: inherit;
-    background: $retro-white;
-    border: $retro-outline solid $retro-ink;
-    border-radius: 8px;
-    transition: background-color 150ms $timing-function;
-
-    @media (hover: hover) {
-      &:hover {
-        background: $retro-cream;
-        cursor: pointer;
-      }
-    }
+    @include ui-card;
 
     &_active {
-      background-color: $retro-yellow;
-      cursor: default;
-
-      @media (hover: hover) {
-        &:hover {
-          background-color: $retro-yellow;
-          cursor: default;
-        }
-      }
+      background: $ui-yellow;
     }
   }
 

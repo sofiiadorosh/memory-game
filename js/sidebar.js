@@ -45,7 +45,10 @@ async function renderCategories() {
         <li class="category__item">
           <button type="button" class="category__button" data-category="${name}" aria-pressed="false">
             <span class="category__icon">${emojis[0]}</span>
-            <span class="category__name">${name}</span>
+            <span class="category__text">
+              <span class="category__name">${name}</span>
+              <span class="category__caption">${emojis.length} pairs</span>
+            </span>
             <span class="category__radio" aria-hidden="true"></span>
           </button>
         </li>`,

@@ -41,16 +41,17 @@
       <div class="sidebar__backdrop" data-sidebar-close></div>
       <div class="sidebar__panel" role="dialog" aria-modal="true" aria-labelledby="sidebar-title">
         <div class="sidebar__header">
-          <h2 class="sidebar__title" id="sidebar-title">Settings</h2>
-          <div class="sidebar__controls">
-            <span class="sidebar__dot sidebar__dot_pink" aria-hidden="true"></span>
-            <span class="sidebar__dot sidebar__dot_yellow" aria-hidden="true"></span>
-            <button type="button" class="sidebar__dot sidebar__close" aria-label="Close settings" data-sidebar-close></button>
+          <div class="sidebar__heading">
+            <div class="sidebar__content">
+              <h2 class="sidebar__title" id="sidebar-title">Settings</h2>
+              <p class="sidebar__subtitle">Choose what you want to play with</p>
+            </div>
+            <button type="button" class="sidebar__close" aria-label="Close settings" data-sidebar-close></button>
           </div>
-        </div>
-        <div class="sidebar__tabs" role="tablist">
-          <button type="button" class="sidebar__tab sidebar__tab_active" id="tab-categories" role="tab" aria-selected="true" aria-controls="panel-categories" data-tab="categories">Categories</button>
-          <button type="button" class="sidebar__tab" id="tab-designs" role="tab" aria-selected="false" aria-controls="panel-designs" data-tab="designs" tabindex="-1">Cards</button>
+          <div class="sidebar__tabs" role="tablist">
+            <button type="button" class="sidebar__tab sidebar__tab_active" id="tab-categories" role="tab" aria-selected="true" aria-controls="panel-categories" data-tab="categories">Categories</button>
+            <button type="button" class="sidebar__tab" id="tab-designs" role="tab" aria-selected="false" aria-controls="panel-designs" data-tab="designs" tabindex="-1">Cards</button>
+          </div>
         </div>
         <div class="sidebar__body">
           <div class="sidebar__tab-panel" id="panel-categories" role="tabpanel" aria-labelledby="tab-categories">
