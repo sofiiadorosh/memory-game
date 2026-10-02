@@ -4,6 +4,17 @@ A browser memory game: flip cards two at a time and find all the matching pairs 
 
 The app is written in plain HTML, SCSS and JavaScript — no frameworks or UI libraries. All markup is created with JavaScript: `index.html` contains only a `<script>` tag inside `<body>`.
 
+## How to play
+
+1. A new game starts automatically when the page loads: 16 shuffled cards lie face down, the counters show 0 moves and 0 of 8 pairs.
+2. Open a card, then another one. Opening the second card counts as one move, whether the cards match or not.
+3. Matching cards stay open until the end of the game, and the pair counter goes up by one.
+4. Different cards stay visible for 1.5 seconds and then flip back. While they are open, no other card can be opened; the header buttons still work.
+5. Clicks on an already open card or a found pair are ignored, including fast repeated clicks.
+6. When all 8 pairs are found, the victory modal opens and the result is saved to the leader board.
+
+"New game" restarts the round right away: an unmatched pair's timer is cancelled, all cards close and are reshuffled, and both counters are reset.
+
 ## Features
 
 - **16 cards, 8 pairs.** Every emoji of the selected category appears exactly twice, and the deck is shuffled (Fisher–Yates) on every new game.
@@ -21,6 +32,7 @@ The app is written in plain HTML, SCSS and JavaScript — no frameworks or UI li
 
 - The page behind an open modal is dimmed, cannot be clicked or reached with Tab (`inert`), and does not scroll.
 - A modal closes with its "Close" button, a click on the backdrop or the `Escape` key. Clicking the modal content does not close it.
+- If one modal opens on top of another (for example, the victory modal over the leader board), `Escape` closes only the top one, and the page stays inaccessible until every modal is closed.
 - Closing a modal never resets the game or changes the results. Opening the leader board during a game keeps the board as it is: an unmatched pair still flips back after its delay.
 
 ## Getting started
