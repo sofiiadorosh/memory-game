@@ -51,11 +51,10 @@ export function createModal({ id, className = "modal", title, subtitle, content 
     }
 
     lastFocused = document.activeElement;
-    openModals.push(modal);
+    lockPage(modal);
 
     element.classList.add("modal_opened");
     element.setAttribute("aria-hidden", "false");
-    updatePage();
     (focusTarget ?? element.querySelector("button")).focus();
   }
 
@@ -64,11 +63,10 @@ export function createModal({ id, className = "modal", title, subtitle, content 
       return;
     }
 
-    openModals.splice(openModals.indexOf(modal), 1);
+    unlockPage(modal);
 
     element.classList.remove("modal_opened");
     element.setAttribute("aria-hidden", "true");
-    updatePage();
     lastFocused?.focus();
   }
 
@@ -79,6 +77,16 @@ export function createModal({ id, className = "modal", title, subtitle, content 
   }
 
   return modal;
+}
+
+export function lockPage(dialog) {
+  openModals.push(dialog);
+  updatePage();
+}
+
+export function unlockPage(dialog) {
+  openModals.splice(openModals.indexOf(dialog), 1);
+  updatePage();
 }
 
 function updatePage() {
