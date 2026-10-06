@@ -1,6 +1,7 @@
 import { CATEGORIES } from "./categories.js";
 import { applyDesign, DESIGNS, getDesignClass } from "./designs.js";
 import { createElement } from "./dom.js";
+import { lockPage, unlockPage } from "./modal.js";
 import { getSettings, saveSettings } from "./storage.js";
 
 const TABS = [
@@ -64,6 +65,8 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
     ],
   });
 
+  const sidebar = { element, open, close };
+
   let activeTab = tabs[0];
   let selectedCategory = null;
   let selectedDesign = null;
@@ -98,28 +101,30 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
   }
 
   function open() {
+    if (element.classList.contains("sidebar_opened")) {
+      return;
+    }
+
     lastFocused = document.activeElement;
+    lockPage(sidebar);
     element.classList.add("sidebar_opened");
     element.setAttribute("aria-hidden", "false");
-    document.addEventListener("keydown", onEscapePress);
     closeButton.focus();
   }
 
   function close() {
+    if (!element.classList.contains("sidebar_opened")) {
+      return;
+    }
+
+    unlockPage(sidebar);
     element.classList.remove("sidebar_opened");
     element.setAttribute("aria-hidden", "true");
-    document.removeEventListener("keydown", onEscapePress);
     lastFocused?.focus();
   }
 
   function onSidebarClick(e) {
     if (e.target.closest("[data-sidebar-close]")) {
-      close();
-    }
-  }
-
-  function onEscapePress(e) {
-    if (e.key === "Escape") {
       close();
     }
   }
@@ -205,7 +210,7 @@ export function createSidebar({ onCategoryChange, onDesignChange }) {
     onDesignChange(name);
   }
 
-  return { element, open };
+  return sidebar;
 }
 
 function createTab({ name, label }, index) {
